@@ -322,7 +322,6 @@ install_custom() {
     [[ -d $DEFAULT_FS_INSTALL_DIR/$name ]] && {
         EDIE "filesystem already installed"
         # [TODO]: write about reset and remove
-        exit 1
     }
 
     TITLE "Installing $name - (custom)"
@@ -957,11 +956,13 @@ list() {
         # any folder in the install dir that starts with "custom-" is considered a custom fs
         # there is no need to show support & status for custom fs 
         #
-        echo -e "\n\n" >> $tempfile
-        echo -e "| custom-fs name | $_size_header" >> $tempfile
-        echo -e "|----------------|$_size_line" >> $tempfile
+        {
+            echo -e "\n\n"
+            echo -e "| custom-fs name | $_size_header"
+            echo -e "|----------------|$_size_line"
+        } >> $tempfile
 
-        for custom_fs in $(ls $path | grep -E "^custom-"); do
+        for custom_fs in $(ls $path/custom-*); do
             if [[ -d $path/$custom_fs ]]; then
                 if [[ $size == true ]]; then
                     _size="$(du -sh $path/$custom_fs 2> /dev/null | awk '{print $1}') |"
@@ -969,7 +970,8 @@ list() {
                     _size=""
                 fi
                 # remove "custom-" from the name only at the begining of the string
-                custom_fs=$(echo $custom_fs | sed -e 's/^custom-//')
+                # custom_fs=$(echo $custom_fs | sed -e 's/^custom-//')
+                custom_fs=${custom_fs//custom-//}
                 echo -e "|$custom_fs|$_size" >> $tempfile
             fi
         done
@@ -1179,7 +1181,7 @@ clear_cache() {
 
     # ask for confirmation
     if ask "Do you want to clear cache?"; then
-        rm -rvf $DLCACHE/* >> $LOG_FILE
+        rm -rvf "${DLCACHE}/*" >> $LOG_FILE
         echo "$cache_size cache cleared"
     else
         GWARN " ?  cache not cleared"
