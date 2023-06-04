@@ -962,7 +962,7 @@ list() {
             echo -e "|----------------|$_size_line"
         } >> $tempfile
 
-        for custom_fs in $(ls $path/custom-*); do
+        for custom_fs in $path/custom-* do
             if [[ -d $path/$custom_fs ]]; then
                 if [[ $size == true ]]; then
                     _size="$(du -sh $path/$custom_fs 2> /dev/null | awk '{print $1}') |"
@@ -1181,7 +1181,7 @@ clear_cache() {
 
     # ask for confirmation
     if ask "Do you want to clear cache?"; then
-        rm -rvf "${DLCACHE}/*" >> $LOG_FILE
+        rm -rvf ${DLCACHE:?}/* >> $LOG_FILE
         echo "$cache_size cache cleared"
     else
         GWARN " ?  cache not cleared"
