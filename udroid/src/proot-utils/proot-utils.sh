@@ -127,8 +127,8 @@ if [ -n "$RUN_STANDALONE" ]; then
     while [ $# -gt 0 ]; do
         case $1 in
             --install|-i)   ;;
-            --login|-l) shift 1; login $*; break    ;;
-            --extract)  shift 1; extract $*; break  ;;
+            --login|-l) shift 1; login "$@"; break    ;;
+            --extract)  shift 1; extract "$@"; break  ;;
             --uninstall|-u) ;;
         esac
     done
