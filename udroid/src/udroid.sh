@@ -962,7 +962,7 @@ list() {
             echo -e "|----------------|$_size_line"
         } >> $tempfile
 
-        for custom_fs in $path/custom-* do
+        for custom_fs in "$path"/custom-* do
             if [[ -d $path/$custom_fs ]]; then
                 if [[ $size == true ]]; then
                     _size="$(du -sh $path/$custom_fs 2> /dev/null | awk '{print $1}') |"

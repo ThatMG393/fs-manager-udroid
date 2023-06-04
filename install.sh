@@ -11,7 +11,7 @@ apt install -y jq wget proot pv pulseaudio libandroid-shmem-static
 
 # Android version warinigs
 android_version_code=$(getprop ro.system.build.version.release)
-if (( $android_version_code >= 12 )); then
+if (( android_version_code >= 12 )); then
     sleep 1
     echo
     GWARN "[Warning]: Android version ${android_version_code} detected"
